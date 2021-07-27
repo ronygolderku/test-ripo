@@ -1,0 +1,43 @@
+---
+title: "ProPO and SOD plot"
+author: "Md Rony Golder"
+date: "27/07/2021"
+output:
+  pdf_document: default
+  html_document: default
+---
+#first plot
+```
+###loading Library
+library(ggplot2)
+library(readr)
+```
+#For unit and stocking size
+```
+z <- c("2", "4", "6", "2", "4", "6", "2", "4", "6")
+n <-bquote(atop(Stocking~density~(m^-2)))
+```
+#load dataset
+```
+d2 <- read_csv("C:/Users/ronyg/Downloads/Saiful sir/d2.csv")
+```
+#Plotting using ggplot2#
+```
+p<-ggplot(d2, aes(x=Pond, y=Mean, fill=z)) +
+geom_bar(stat="identity", color="black", position=position_dodge()) +
+geom_errorbar(aes(ymin=Mean-Sd, ymax=Mean+Sd), width=.2,
+position=position_dodge(.9))+labs(fill=n)
+
+p+geom_text(aes(label =sig, y=(Mean+Sd)+0.01),  position = position_dodge(0.9),
+vjust = 0)+ xlab("Probiotics")+
+ylab(expression(paste("pro-PO enzyme activity of   ", italic("M. rosenbergii"))))+
+theme_classic(base_size = 12, base_family = "serif")+
+scale_fill_manual(breaks = c("2", "4", "6"),
+values=c("white", "grey", "black"))+theme(legend.position="top")+
+theme(axis.title.x = element_blank())
+```
+#Save the Plot
+```
+ggsave("Figure 4.png")
+```
+
